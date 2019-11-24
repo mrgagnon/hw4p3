@@ -9,6 +9,7 @@ using namespace std;
 #define n 8
 
 /*Prints the given array
+ * @param A the array to be printed
  */
 void printArr (double A[][n+1]){
 	for (int i = 0; i < n; i++){
@@ -20,13 +21,10 @@ void printArr (double A[][n+1]){
 }
 
 /* Uses the betterFowardElimination algorithm from the textbook so solve the system of equations
- * @param A
- * @param b
- * @return
-
+ * @param A The square matrix of made up of co-efficients with an additional column on the end
+ * @param b An array with the results of the equations, will be augmented to array A
  */
-/*
-int betterForwardElimin(int A[][4], int b[3]){
+void betterForwardElimin(int A[][4], int b[3]){
 	for (int i = 0; i < n; i++){
 		A[i][n] = b[i]; // appends b to A as the last col
 	}
@@ -54,21 +52,18 @@ int betterForwardElimin(int A[][4], int b[3]){
 			}
 		}
 	}
-
-	return 0;
-}*/
+}
 
 /* Modifies the betterforward algorithm to follow the gaussJordan algorithm
- * @param A
- * @param b
- * @return
+ * @param A The square matrix of made up of co-efficients with an additional column on the end
+ * @param b An array with the results of the equations, will be augmented to array A
  */
-int gaussJordanAlg(double A[][n+1], double b[n]){
+void gaussJordanAlg(double A[][n+1], double b[n]){
 	for (int i = 0; i < n; i++){
 		A[i][n] = b[i]; // appends b to A as the last col
 	}
 
-	for (int i = 0; i < n; i++){ //TODO n-1?
+	for (int i = 0; i < n; i++){
 		int pivotrow = i;
 
 		for (int j = i+1; j < n; j++){ //finding max row
@@ -83,13 +78,12 @@ int gaussJordanAlg(double A[][n+1], double b[n]){
 			A[pivotrow][k] = tempEntry;
 		}
 
-		// GJ modification, each pivot row is divided by leading entry prior to use as pivot row, producing an identity matrix
-		double leadingEntry = A[i][i];
+		double leadingEntry = A[i][i]; //GJ modification, pivot row/leading entry prior to use -> identity matrix
 		for (int x = i; x < n+1; x++) {
 			A[i][x] = A[i][x] / leadingEntry;
 		}
 
-		for (int j = 0; j < n; j++){ //zeroing/updating values, does upper & lower
+		for (int j = 0; j < n; j++){ //zeroing/updating values, GJ upper & lower
 			if (i!=j){
 				double temp = (double)A[j][i] / (double)A[i][i];
 				for (int k = 0; k < n+1; k++){
@@ -97,14 +91,10 @@ int gaussJordanAlg(double A[][n+1], double b[n]){
 				}
 			}
 		}
-		printArr(A);
-		cout << endl;
 	}
-	return 0;
 }
 
-/*
- *
+/* Sets up arrays and call gaussJordan method
  */
 int main() {
 	double arrHW[8][9] = {{1, 1, 1, 1, 1, 1, 1, 1, 0},
@@ -116,16 +106,17 @@ int main() {
 					  {1, 2, 3, 4, 5, 6, 7, 8, 0},
 					  {1, -1, 1, -1, 1, -1, 1, -1, 0}};
 	double bHW[8] = {0, 0, 0, 0, 20, 34, -51, -6};
-	cout << "gaussJordan. Original array" << endl;
+	cout << "Gauss-Jordan. Original array" << endl;
 	printArr(arrHW);
 	cout << endl;
 
 	gaussJordanAlg(arrHW, bHW);
 
-	cout << "array after" << endl;
+	cout << "Resulting array" << endl;
 	printArr(arrHW);
-	cout << endl;
 
+
+	//Arrays used for testing
 	/*
 	int arrEx[3][4] = {{2, -1, 1, 0},
 			{4, 1, -1, 0},
