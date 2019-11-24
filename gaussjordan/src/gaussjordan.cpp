@@ -103,6 +103,9 @@ int gaussJordanAlg(double A[][n+1], double b[n]){
 	return 0;
 }
 
+/*
+ *
+ */
 int main() {
 	double arrHW[8][9] = {{1, 1, 1, 1, 1, 1, 1, 1, 0},
 					  {1, 2, 1, 1, 1, 1, 2, 1, 0},
